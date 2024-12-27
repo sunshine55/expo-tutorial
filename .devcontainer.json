@@ -1,0 +1,17 @@
+{
+  "name": "expo-tut",
+  "dockerComposeFile": [
+    "./compose.yml"
+  ],
+  "service": "expo-tut",
+  "shutdownAction": "none",
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "expo.vscode-expo-tools",
+        "msjsdiag.vscode-react-native"
+      ]
+    }
+  },
+  "workspaceFolder": "/workspace"
+}

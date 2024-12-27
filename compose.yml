@@ -1,0 +1,9 @@
+services:
+  expo-tut:
+    image: node:22
+    container_name: expo-tut
+    user: 1000:1000
+    network_mode: host
+    volumes:
+      - ./:/workspace:delegated
+    command: tail -f /dev/null
