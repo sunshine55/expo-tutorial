@@ -3,20 +3,11 @@ import { TextInput } from 'react-native-paper';
 import { GestureResponderEvent, View } from 'react-native';
 
 export type SearchFormProps = {
-  text?: string,
   onSearch: (text: string) => void
 }
 
 export function SearchForm(props: SearchFormProps) {
-  const [text, setText] = useState(props.text || '');
-
-  const handleSubmit = (event: GestureResponderEvent) => {
-    if (!!text) {
-      event.preventDefault();
-      props.onSearch(text);
-      setText('');
-    }
-  };
+  const [text, setText] = useState<string>('');
 
   return (
     <View style={{ paddingHorizontal: 20 }}>
@@ -29,7 +20,10 @@ export function SearchForm(props: SearchFormProps) {
         right={
           <TextInput.Icon
             icon="filter"
-            onPress={handleSubmit}
+            onPress={() => {
+              setText('');
+              props.onSearch(text)
+            }}
             color="#eb5e28"
           />
         }

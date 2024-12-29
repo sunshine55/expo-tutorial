@@ -1,49 +1,22 @@
-import { useState } from 'react';
-import { ScrollView, StyleSheet, View } from 'react-native';
+import { createContext, useState } from 'react';
+import { StyleSheet, View } from 'react-native';
 import { Divider, SegmentedButtons, Text } from 'react-native-paper';
-import uuid from 'react-native-uuid';
-import { PlayList, SearchForm, Song } from './components';
+import { PlayList, SearchForm } from './components';
+import { AudioSource } from 'expo-audio';
 
-const initSongs: Song[] = [
-  {
-    id: uuid.v4(),
-    title: 'Midori no Asa',
-    uri: ''
-  }
-];
-
-function renderPlayList(songs: Song[]) {
-  if (songs.length === 0) {
-    return (
-      <ScrollView style={{ paddingTop: 50 }}>
-        <Text variant="titleLarge" style={{ textAlign: 'center' }}>
-          Your list is empty
-        </Text>
-      </ScrollView>
-    );
-  }
-  return <PlayList songs={songs} />;
-}
 
 export function App() {
-  const [songs, setSongs] = useState(initSongs);
-  const [action, setAction] = useState('');
-
-  const handleSearch = (text: string) => {
-    const nextSongs = initSongs.filter((song) => {
-      const { title } = song;
-      return title.includes(text);
-    });
-    setSongs(nextSongs);
-  };
+  const [titleSearch, setTitleSearch] = useState<string>('');
+  const [audioSource, setAudioSource] = useState<AudioSource>('');
+  const [action, setAction] = useState<string>('');
 
   return (
     <View style={styles.container}>
       <Text variant="headlineSmall" style={styles.heading}>
-        CHI CHI
+        SUNSHINE55 MUSIC PLAYER
       </Text>
-      <SearchForm onSearch={handleSearch} />
-      {renderPlayList(songs)}
+      <SearchForm onSearch={(text) => setTitleSearch(text)} />
+      <PlayList titleFilter={titleSearch} onSelectItem={(uri) => setAudioSource(uri)} />
       <Divider horizontalInset={true} />
       <View style={styles.bottomBtns}>
         <SegmentedButtons
