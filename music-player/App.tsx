@@ -1,14 +1,27 @@
-import { createContext, useState } from 'react';
+import { AudioSource, useAudioPlayer } from 'expo-audio';
+import { useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { Divider, SegmentedButtons, Text } from 'react-native-paper';
 import { PlayList, SearchForm } from './components';
-import { AudioSource } from 'expo-audio';
 
 
 export function App() {
+  const player = useAudioPlayer();
+
   const [titleSearch, setTitleSearch] = useState<string>('');
   const [audioSource, setAudioSource] = useState<AudioSource>('');
-  const [action, setAction] = useState<string>('');
+  const [action, setAction] = useState<string>('pause');
+
+  const handleActionChange = (value: string) => {
+    setAction(value);
+    if (!!audioSource) {
+      if (value === 'play') {
+        player.play();
+      } else if (value === 'pause') {
+        player.pause();
+      }
+    }
+  };
 
   return (
     <View style={styles.container}>
@@ -21,7 +34,7 @@ export function App() {
       <View style={styles.bottomBtns}>
         <SegmentedButtons
           value={action}
-          onValueChange={setAction}
+          onValueChange={handleActionChange}
           theme={{
             colors: {
               secondaryContainer: '#f7b9a1'
@@ -36,7 +49,12 @@ export function App() {
             {
               value: 'play',
               label: 'Play',
-              icon: 'play-pause'
+              icon: 'play'
+            },
+            {
+              value: 'pause',
+              label: 'Pause',
+              icon: 'pause'
             },
             {
               value: 'next',
