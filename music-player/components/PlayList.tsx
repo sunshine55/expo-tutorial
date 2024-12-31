@@ -1,9 +1,9 @@
-import { useState } from 'react';
 import { ScrollView } from 'react-native';
 import { List, Text } from 'react-native-paper';
 import uuid from 'react-native-uuid';
 
-const AUDIO_ASSETS_URI = './assets/audio'
+const AUDIO_ASSETS_URI = 'https://github.com/sunshine55/expo-tutorial/raw/refs/heads/master/music-player/assets/audio';
+// const AUDIO_ASSETS_URI = './assets/audio';
 
 const availableSongs: Song[] = [
   {

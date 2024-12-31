@@ -18,11 +18,6 @@ export function ActionButtons(props: ActionButtonsProps) {
       }}
       buttons={[
         {
-          value: 'prev',
-          label: 'Previous',
-          icon: 'skip-previous'
-        },
-        {
           value: 'play',
           label: 'Play',
           icon: 'play'
@@ -33,9 +28,9 @@ export function ActionButtons(props: ActionButtonsProps) {
           icon: 'pause'
         },
         {
-          value: 'next',
-          label: 'Next',
-          icon: 'skip-next'
+          value: 'stop',
+          label: 'Stop',
+          icon: 'stop'
         }
       ]}
     />

@@ -1,24 +1,33 @@
-import { AudioSource, useAudioPlayer } from 'expo-audio';
+import { Audio } from 'expo-av';
 import { useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { Divider, Text } from 'react-native-paper';
 import { ActionButtons, PlayList, SearchForm } from './components';
 
 export function App() {
-  const player = useAudioPlayer();
-
   const [titleSearch, setTitleSearch] = useState<string>('');
-  const [audioSource, setAudioSource] = useState<AudioSource>('');
+  const [audioSource, setAudioSource] = useState<string>('');
   const [action, setAction] = useState<string>('pause');
 
-  const handleActionChange = (value: string) => {
-    setAction(value);
-    if (!!audioSource) {
+  const handleActionChange = async (value: string) => {
+    if (!audioSource) {
+      return;
+    }
+    try {
+      const { sound } = await Audio.Sound.createAsync({ uri: audioSource });
       if (value === 'play') {
-        player.play();
+        await sound.playAsync();
       } else if (value === 'pause') {
-        player.pause();
+        console.log('Pause audio');
+        await sound.pauseAsync();
+      } else if (value === 'stop') {
+        console.log('Stop audio');
+        await sound.stopAsync();
+        await sound.unloadAsync();
       }
+      setAction(value);
+    } catch (error) {
+      console.error('Cannot play audio', error);
     }
   };
 
@@ -33,7 +42,7 @@ export function App() {
   return (
     <View style={styles.container}>
       <Text variant="headlineSmall" style={styles.heading}>
-        SUNSHINE55 MUSIC PLAYER
+        SIMPLE MP3
       </Text>
       <SearchForm onSearch={handleSearch} />
       <PlayList titleFilter={titleSearch} onSelectItem={handleSelectItem} />
