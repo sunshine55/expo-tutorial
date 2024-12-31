@@ -1,9 +1,8 @@
 import { AudioSource, useAudioPlayer } from 'expo-audio';
 import { useState } from 'react';
 import { StyleSheet, View } from 'react-native';
-import { Divider, SegmentedButtons, Text } from 'react-native-paper';
-import { PlayList, SearchForm } from './components';
-
+import { Divider, Text } from 'react-native-paper';
+import { ActionButtons, PlayList, SearchForm } from './components';
 
 export function App() {
   const player = useAudioPlayer();
@@ -23,46 +22,24 @@ export function App() {
     }
   };
 
+  const handleSearch = (text: string) => {
+    setTitleSearch(text);
+  };
+
+  const handleSelectItem = (uri: string) => {
+    setAudioSource(uri);
+  };
+
   return (
     <View style={styles.container}>
       <Text variant="headlineSmall" style={styles.heading}>
         SUNSHINE55 MUSIC PLAYER
       </Text>
-      <SearchForm onSearch={(text) => setTitleSearch(text)} />
-      <PlayList titleFilter={titleSearch} onSelectItem={(uri) => setAudioSource(uri)} />
+      <SearchForm onSearch={handleSearch} />
+      <PlayList titleFilter={titleSearch} onSelectItem={handleSelectItem} />
       <Divider horizontalInset={true} />
       <View style={styles.bottomBtns}>
-        <SegmentedButtons
-          value={action}
-          onValueChange={handleActionChange}
-          theme={{
-            colors: {
-              secondaryContainer: '#f7b9a1'
-            }
-          }}
-          buttons={[
-            {
-              value: 'prev',
-              label: 'Previous',
-              icon: 'skip-previous'
-            },
-            {
-              value: 'play',
-              label: 'Play',
-              icon: 'play'
-            },
-            {
-              value: 'pause',
-              label: 'Pause',
-              icon: 'pause'
-            },
-            {
-              value: 'next',
-              label: 'Next',
-              icon: 'skip-next'
-            }
-          ]}
-        />
+        <ActionButtons action={action} onActionChange={handleActionChange} />
       </View>
     </View>
   );
